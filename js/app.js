@@ -9,12 +9,13 @@ require.config({
 // Start the main app logic.
 require(['jquery', 'app/scene', 'app/audio'],
 function ($, scene, audio) {
+	// create scene
+	scene.createScene($('#container'));
 	
 	// create audio
 	audio.setupAudioNodes(function(average) {
 		scene.render(average,average);
 	});
 	audio.loadSound('sound/OGLikeCapone.ogg');
-	// create scene
-	scene.createScene($('#container'));
+
 });
