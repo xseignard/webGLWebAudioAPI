@@ -3,13 +3,15 @@ define(function () {
 	// create the audio context (chrome only for now)
 	var context = new webkitAudioContext(),
 		audioBuffer,
+		mediaStreamBuffer,
 		sourceNode,
 		splitter,
 		analyser,
 		javascriptNode;
 	
 	/**
-	 * Setup the nodes that will load, play, split, analyse, etc.,  the sound
+	 * Setup the nodes that will analyse and process the sound
+	 * @param callback - the callback which is fired when the javascriptNode has processed 2048 audio frames
 	 */
 	function setupAudioNodes(callback) {
 		// setup a javascript node that will process audio with a buffer of 2048 frames
@@ -30,25 +32,60 @@ define(function () {
 		
 		// audioprocess callback definition
 		onAudioProcess(callback);
+		
+		// plug the nodes together
+		// analyser-->javascriptNode to analyze and interact with the sound
+		// see this again : http://www.w3.org/TR/webaudio/#ModularRouting-section
+		analyser.connect(javascriptNode);
+	}
 	
+	/**
+	 * Connect a buffered node as the sourceNode
+	 * @param url - the url of the sound to load
+	 */
+	function connectSound(url) {
+		// stop the previous mediaStreamBuffer, if it exists
+		if (mediaStreamBuffer) {
+			mediaStreamBuffer.disconnect(analyser);
+			mediaStreamBuffer.disconnect(context.destination);
+		}
 		// create a buffer source node (i.e. in memory sound)
 		// see : http://www.w3.org/TR/webaudio/#AudioBufferSourceNode-section
 		sourceNode = context.createBufferSource();
-	
-		// now all the nodes are created, we'll plug them as below
-		// sourceNode-->analyser-->javascriptNode to analyze and interact with the sound
-		// AND
-		// sourceNode-->context.destination to play the sound
-		// see this again : http://www.w3.org/TR/webaudio/#ModularRouting-section
-		
 		// connect the source to the analyser
 		sourceNode.connect(analyser);
-	
-		// the analyser to the javascriptNode
-		analyser.connect(javascriptNode);
-		
-		// AND connect sourceNode to context.destination
+		// connect sourceNode to context.destination
 		sourceNode.connect(context.destination);
+		// finally load the sound
+		loadSound(url);
+	}
+	
+	/**
+	 * Connect a media stream node as the sourceNode
+	 */
+	function connectStream() {
+		// stop the previous sourceNode, if it exists
+		if (sourceNode) {
+			sourceNode.stop(0);
+			sourceNode.disconnect(analyser);
+			sourceNode.disconnect(context.destination);
+		}
+		// create a stream source from the microphone
+		// see : http://www.w3.org/TR/webaudio/#MediaStreamAudioSourceNode-section
+		// get the usermedia object to be able to connect to the mic
+		navigator.webkitGetUserMedia({audio:true}, 
+			function onSuccess(stream) {
+				mediaStreamBuffer = context.createMediaStreamSource(stream);
+				// connect the source to the analyser
+				mediaStreamBuffer.connect(analyser);
+				// dont do that unless you like Larsen effect
+				//mediaStreamBuffer.connect(context.destination);
+			}, 
+			function onError() {
+				console.log('go and get a decent browser!');
+			}
+		);
+		
 	}
 	
 	/**
@@ -122,6 +159,7 @@ define(function () {
 	
 	return {
 		setupAudioNodes: setupAudioNodes,
-		loadSound: loadSound
+		connectsound: connectSound,
+		connectStream: connectStream
 	}
 });

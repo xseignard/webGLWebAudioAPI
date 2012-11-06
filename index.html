@@ -3,7 +3,8 @@
 	<head>
 		<meta charset='utf-8'/>
 		<title>Webgl experiments</title>
-		<link rel="stylesheet/less" type="text/x-less" href="less/style.less">		
+		<link rel="stylesheet/less" type="text/x-less" href="less/style.less">
+		<link rel="stylesheet" href="css/bootstrap.min.css">
 		<!-- less compilation -->
         <script src="js/lib/less-1.3.0.min.js"></script>
         <!-- RequireJS -->
@@ -12,10 +13,14 @@
 	<body>
 		<div id="cartouche">
 			<p>WebGL animation with <a href="http://mrdoob.github.com/three.js/">three.js</a>, <a href="http://www.w3.org/TR/webaudio/">HTML5 Web Audio API</a> and <a href="http://requirejs.org">RequireJS</a></p>
-			<p>Music: <a href="http://soundcloud.com/ulysa/o-g-like-capone-original-mix-1">O.G. like Capone (Original Mix)</a> by <a href="http://soundcloud.com/ulysa">ulysa</a>
-			<p>Code: <a href="https://github.com/xseignard/webGLWebAudioAPI/">https://github.com/xseignard/webGLWebAudioAPI/</a> by <a href="https://twitter.com/xavier_seignard">@xavier_seignard</a>
-		</div>
-		
+			<p>Music: <a href="http://soundcloud.com/ulysa/o-g-like-capone-original-mix-1">O.G. like Capone (Original Mix)</a> by <a href="http://soundcloud.com/ulysa">ulysa</a></p>
+			<p>Code: <a href="https://github.com/xseignard/webGLWebAudioAPI/">https://github.com/xseignard/webGLWebAudioAPI/</a> by <a href="https://twitter.com/xavier_seignard">@xavier_seignard</a></p>
+			<span>Input: </span>
+			<div class="btn-group" id="switch" data-toggle="buttons-radio">
+				<button type="button" class="btn btn-small btn-info active">Audio</button>
+				<button type="button" class="btn btn-small">Mic</button>
+			</div>
+		</div>​​​​​​​​​​​​​​​
 		<div id="container"></div>
 	</body>
 </html>
