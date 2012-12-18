@@ -76,7 +76,7 @@ define(function () {
 		// create a stream source from the microphone
 		// see : http://www.w3.org/TR/webaudio/#MediaStreamAudioSourceNode-section
 		// get the usermedia object to be able to connect to the mic
-		navigator.getUserMedia({audio:true}, 
+		navigator.getUserMedia({audio:true, video:true}, 
 			function onSuccess(stream) {
 				mediaStreamBuffer = context.createMediaStreamSource(stream);
 				// connect the source to the analyser
@@ -84,7 +84,8 @@ define(function () {
 				// dont do that unless you like Larsen effect
 				//mediaStreamBuffer.connect(context.destination);
 			}, 
-			function onError() {
+			function onError(err) {
+				console.log(err);
 				console.log('go and get a decent browser!');
 			}
 		);
