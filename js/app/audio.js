@@ -1,7 +1,10 @@
 define(function () {
 
-	// create the audio context (chrome only for now)
-	var context = new webkitAudioContext(),
+	// support checks
+	checkSupport();
+
+	// create the audio context
+	var context = new AudioContext(),
 		audioBuffer,
 		mediaStreamBuffer,
 		sourceNode,
@@ -73,7 +76,7 @@ define(function () {
 		// create a stream source from the microphone
 		// see : http://www.w3.org/TR/webaudio/#MediaStreamAudioSourceNode-section
 		// get the usermedia object to be able to connect to the mic
-		navigator.webkitGetUserMedia({audio:true}, 
+		navigator.getUserMedia({audio:true}, 
 			function onSuccess(stream) {
 				mediaStreamBuffer = context.createMediaStreamSource(stream);
 				// connect the source to the analyser
@@ -155,6 +158,30 @@ define(function () {
 		// then mean it
 		average = values / length;
 		return average;
+	}
+	
+	/**
+	 * Checks if AudioContext and getUserMedia are available
+	 */
+	function checkSupport() {
+		// detect if the audio context is supported.
+		window.AudioContext = (
+				window.AudioContext || window.webkitAudioContext || null
+		);
+
+		if (!window.AudioContext) {
+			throw new Error("AudioContext not supported!");
+		}
+		
+		// detect if getUserMedia is supported
+		navigator.getUserMedia = (
+				navigator.getUserMedia || navigator.webkitGetUserMedia ||
+	            navigator.mozGetUserMedia || navigator.msGetUserMedia || null
+		);
+
+		if (!navigator.getUserMedia) {
+			throw new Error("getUserMedia not supported!");
+		}
 	}
 	
 	return {
