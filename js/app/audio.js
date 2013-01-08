@@ -152,6 +152,7 @@ define(function () {
 		var values = 0;
 		var average;
 		var length = array.length;
+		console.log(length);
 		// sum the frequency amplitudes
 		for (var i = 0; i < length; i++) {
 			values += array[i];
