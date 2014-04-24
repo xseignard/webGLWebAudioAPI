@@ -21,7 +21,7 @@ define(function () {
 		// so every 2048 frame an AudioProcessingEvent event will be fired
 		// this node have one input channel and one output channel
 		// see: http://www.w3.org/TR/webaudio/#JavaScriptAudioNode
-		javascriptNode = context.createJavaScriptNode(2048, 1, 1);
+		javascriptNode = context.createScriptProcessor(2048, 1, 1);
 		// connect the node to its destination
 		javascriptNode.connect(context.destination);
 	
