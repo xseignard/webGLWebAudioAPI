@@ -20,7 +20,7 @@ define(function () {
 		// setup a javascript node that will process audio with a buffer of 2048 frames
 		// so every 2048 frame an AudioProcessingEvent event will be fired
 		// this node have one input channel and one output channel
-		// see: http://www.w3.org/TR/webaudio/#JavaScriptAudioNode
+		// see: http://www.w3.org/TR/webaudio/#ScriptProcessorNode
 		javascriptNode = context.createScriptProcessor(2048, 1, 1);
 		// connect the node to its destination
 		javascriptNode.connect(context.destination);
@@ -69,7 +69,7 @@ define(function () {
 	function connectStream() {
 		// stop the previous sourceNode, if it exists
 		if (sourceNode) {
-			sourceNode.stop(0);
+			sourceNode.stop();
 			sourceNode.disconnect(analyser);
 			sourceNode.disconnect(context.destination);
 		}
@@ -114,7 +114,7 @@ define(function () {
 						sourceNode.buffer = buffer;
 						// schedule to play the sound in 0 seconds
 						// see: http://www.w3.org/TR/webaudio/#methodsandparams-AudioBufferSourceNode
-						sourceNode.noteOn(0);
+						sourceNode.start();
 					},
 					function(err) {
 						console.log('Error while retrieving sound : ' + err);
