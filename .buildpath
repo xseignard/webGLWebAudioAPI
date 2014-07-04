@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<buildpath>
-	<buildpathentry kind="src" path=""/>
-	<buildpathentry kind="con" path="org.eclipse.dltk.mod.launching.INTERPRETER_CONTAINER/org.ebayopensource.vjet.eclipse.launcher.GenericRhinoInstallType/VJET Rhino Interpreter"/>
-</buildpath>

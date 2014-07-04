@@ -1,9 +1,9 @@
 require.config({
-    baseUrl: 'js/lib',
-    //except, if the module ID starts with "app",load it from the js/app directory.
-    paths: {
-        app: '../app'
-    }
+	baseUrl: 'js/lib',
+	//except, if the module ID starts with "app",load it from the js/app directory.
+	paths: {
+		app: '../app'
+	}
 });
 
 // Start the main app logic.
@@ -29,20 +29,22 @@ function ($, scene, audio) {
 	
 	// handle sourcenode changes
 	$('#switch').on('click', '.btn', function() {
-	    if (!$(this).hasClass('btn-info')) {
-	    	$(this).addClass('btn-info');
-	    	$(this).siblings().removeClass('btn-info');
-	    	useMic = !useMic;
-	    	console.log(useMic);
-	    	if (useMic) {
-	    		audio.setupAudioNodes(callback);
-	    		audio.connectStream();
-	    	}
-	    	else {
-	    		audio.setupAudioNodes(callback);
-	    		audio.connectsound(url);
-	    	}
-	    }
+		if (!$(this).hasClass('btn-info')) {
+			$(this).addClass('btn-info');
+			$(this).addClass('active');
+			$(this).siblings().removeClass('btn-info');
+			$(this).siblings().removeClass('active');
+			useMic = !useMic;
+			console.log(useMic);
+			if (useMic) {
+				audio.setupAudioNodes(callback);
+				audio.connectStream();
+			}
+			else {
+				audio.setupAudioNodes(callback);
+				audio.connectsound(url);
+			}
+		}
 	});
 
 });
